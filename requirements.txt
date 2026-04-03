@@ -15,7 +15,6 @@ selenium>=4.14.0  # For JavaScript-heavy sites
 
 # Data & Storage
 python-dotenv>=1.0.0
-sqlite3  # Built-in
 pydantic>=2.0.0  # Data validation
 
 # Vector & RAG

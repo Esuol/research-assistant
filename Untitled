@@ -1,0 +1,15 @@
+# LLM API Keys
+OPENAI_API_KEY=sk-RK527TXP9jC16ypKAd11D7Fc6fAc44Ba8c420aD818E6C17b
+OPENAI_BASE_URL=https://api.v3.cm/v1  # Uncomment if using proxy
+
+ANTHROPIC_API_KEY=your-anthropic-api-key-here
+
+# Search API (Optional)
+TAVILY_API_KEY=your-tavily-api-key-here
+
+# Logging & Environment
+LOG_LEVEL=INFO
+DEBUG=False
+
+# Storage
+DATABASE_URL=sqlite:///research_assistant.db
