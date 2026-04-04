@@ -1,166 +1,103 @@
-# 多 Agent 研究助手
+# 多 Agent 研究助手 (Professional Edition)
 
-自动化研究工具：给定一个研究主题，系统自动搜索、阅读、分析资料，多个 Agent 协作生成专业研究报告。
+这是一个面向专业研究场景的多 Agent 协作系统。它不仅仅是一个简单的聊天机器人，而是一个具备**自主搜索、深度阅读、结构化写作及自我校对**能力的工业级研究引擎。
 
-## 项目目标
+## 🌟 核心产品形态与功能
 
-**核心能力：** 从"研究主题" → "最终报告"的完整自动化流程
+### 1. 自主研究引擎 (Autonomous Research Engine)
+- **多维度搜索策略**：Agent 自动将模糊的主题拆解为多个精确的搜索查询（Search Query Decomposition），覆盖学术、新闻、社交媒体等多个信息源。
+- **深度链接爬取**：不局限于搜索摘要，阅读 Agent 会深入点击高价值链接，提取长篇文档内容。
+- **动态任务编排**：基于 **LangGraph** 的图结构，Agent 会根据初步搜索结果动态决定是否需要补充搜索或深入研究某个子课题。
+
+### 2. 知识萃取与 RAG 增强
+- **智能分块与向量化**：支持 PDF, Markdown, HTML 等多种格式。
+- **长文本上下文管理**：利用智能摘要技术，在有限的 Token 窗口内处理海量参考资料。
+- **混合检索 (Hybrid Search)**：结合向量搜索（语义）和关键词搜索（精确），确保引用的准确性。
+
+### 3. 专家级报告生成
+- **多角色协作**：
+    - **搜索专家 (Searcher)**：负责广度探索。
+    - **分析专家 (Analyst)**：负责深度挖掘和逻辑梳理。
+    - **主笔专家 (Writer)**：负责按学术或商务规范生成报告。
+    - **审校专家 (Reviewer)**：负责对报告进行“幻觉检查”和事实校验。
+- **全引用溯源**：报告中的每一个核心观点均带有点击可达的原始链接/文献引用。
+- **多格式输出**：支持生成 Markdown, PDF, Word 格式。
+
+### 4. 工业级观测与质量保证 (Expert Features)
+- **全链路追踪 (Tracing)**：通过 LangSmith 可视化展示 Agent 的每一步思考（Chain of Thought）。
+- **自动化评估 (Auto-Evals)**：内置 LLM-as-a-Judge 系统，自动评分报告的相关性、准确性和忠实度。
+- **断点续传 (Checkpointing)**：支持超长研究任务的状态保存与恢复，无惧 API 异常。
+
+---
+
+## 🎯 实际应用场景 (Real-World Value)
+
+为了使项目具备实际的生产力价值，本研究助手将针对以下三个垂直领域进行深度预设与优化：
+
+### 1. 深度竞品分析 (Competitive Intelligence)
+- **输入**：竞品公司名称 / 产品线
+- **输出**：一份包含其最新市场动态、技术路线图（基于招聘和技术博客）、用户反馈趋势及优劣势对比的 SWOT 报告。
+- **价值**：为产品经理和市场分析师节省 4-6 小时的人工搜集时间。
+
+### 2. 行业趋势与白皮书摘要 (Industry Trend Digest)
+- **输入**：某个新兴领域（如“钠离子电池”、“AI 智能体标准化”）
+- **输出**：一份包含该领域近 6 个月内的投融资情况、政策导向、头部公司动作及技术突破点的深度摘要。
+- **价值**：帮助投资经理和研究员快速跟进新领域。
+
+### 3. 学术综述与论文初稿 (Academic Literature Review)
+- **输入**：学术研究课题
+- **输出**：检索 Arxiv、Semantic Scholar 等信息源，生成一份包含研究现状、核心算法对比及未来挑战的综述报告。
+- **价值**：为科研人员提供高价值的文献索引和初步思路梳理。
+
+---
+
+## 🛠️ 工业级特性 (Value Multiplier)
+
+为了让它成为一个可用的“产品”，我们将增加以下实用功能：
+- **引文直达**：点击报告中的每个引用点，直接打开原始 PDF 或网页（解决 AI 幻觉的痛点）。
+- **个性化风格模板**：支持“咨询公司风”、“学术严谨风”、“新闻简报风”等多种输出模版。
+- **异步邮件发送**：研究任务完成后，自动将 PDF 报告发送到用户邮箱。
+- **Slack/Discord 集成**：通过消息指令触发研究任务并接收简报。
+
+---
+
+## 🏗️ 系统架构
 
 ```
-用户输入研究主题
+[ 用户输入 ] 
     ↓
-[搜索 Agent] 找到相关资料 (网络搜索)
+[ Coordinator (LangGraph) ] ←─── [ Memory Pool ]
+    ↓           ↑
+    ├─→ [ Search Agent ] ──→ (Tavily/Google API)
+    ├─→ [ Reader Agent ] ──→ (Playwright/RAG)
+    └─→ [ Writer Agent ] ──→ (Structure Generator)
+    ↓           ↑
+[ Review Agent (Hallucination Check) ]
     ↓
-[阅读 Agent] 提取关键信息 (文档解析、内容理解)
-    ↓
-[综合 Agent] 协调整合、生成报告 (多源信息融合)
-    ↓
-输出：结构化研究报告
+[ Final Report (PDF/MD) ]
 ```
 
-## 最终功能清单
+## 🛠️ 技术栈 (专家版)
 
-### 核心功能
-- [ ] **搜索能力** - 给定关键词，自动搜索网络获取相关资源
-- [ ] **阅读能力** - 解析 URL 内容，提取关键信息和数据
-- [ ] **理解能力** - 用 LLM 分析文档，生成摘要和洞察
-- [ ] **记忆能力** - 保存对话历史，支持多轮交互
-- [ ] **协作能力** - 多个 Agent 分工协作，避免重复工作
+- **核心框架**: LangGraph (状态机编排), LangChain
+- **大模型**: Claude 3.5 Sonnet / GPT-4o
+- **向量数据库**: Chroma / Pinecone
+- **可观测性**: LangSmith / LangFuse
+- **搜索工具**: Tavily AI / Serper
+- **解析工具**: Unstructured.io (PDF 解析), Firecrawl (网页爬取)
+- **部署**: Docker + FastAPI (后端), React + Tailwind (前端)
 
-### 输出格式
-- [ ] **结构化报告** - 包含：摘要、关键发现、数据支撑、参考资源
-- [ ] **可追溯性** - 每个观点都能追踪到原始资源
-- [ ] **可配置性** - 支持自定义报告深度、长度、风格
+---
 
-### 高级功能（可选）
-- [ ] **增量研究** - 基于已有报告继续深化研究
-- [ ] **对比分析** - 多个主题的对比研究
-- [ ] **实时更新** - 监控新资源并更新报告
+## 📈 职业路线对齐：Agent 专家
 
-## 技术栈
+本项目的设计初衷是帮助开发者建立对 **LLM 应用工程化** 的深度理解，涵盖了目前 Agent 专家岗位的核心考点：
+1. **状态管理** (LangGraph)
+2. **评估闭环** (Evals)
+3. **复杂 RAG 优化** (Hybrid Search, Re-ranking)
+4. **Agent 鲁棒性** (Error Handling, Self-Reflection)
 
-| 层级 | 技术 | 用途 |
-|------|------|------|
-| **LLM** | Claude / OpenAI | 核心推理引擎 |
-| **框架** | LangChain / LangGraph | Agent 编排 |
-| **搜索** | Tavily / Google Search API | 网络搜索 |
-| **解析** | BeautifulSoup / Playwright | 网页内容提取 |
-| **存储** | SQLite / JSON | 对话和报告存储 |
-| **语言** | Python 3.10+ | 后端实现 |
+---
 
-## 学习路径
-
-详见 [CLAUDE.md](./CLAUDE.md) - 包含完整的教学指南和学习里程碑。
-
-**快速开始：**
-```bash
-# 1. 环境设置
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# 2. 配置环境变量
-cp .env.example .env
-# 编辑 .env，填入 API 密钥
-
-# 3. 运行第一个练习
-python phase1_python_basics/exercises/01_syntax.py
-```
-
-## 项目结构
-
-```
-research-assistant/
-├── README.md                    # 项目概览（你在这里）
-├── CLAUDE.md                    # 详细教学指南
-├── requirements.txt             # Python 依赖
-├── .env.example                 # 环境变量模板
-│
-├── 📚 学习铺垫（阶段 1-4）
-│   ├── phase1_python_basics/    # 阶段 1：Python 基础
-│   │   ├── exercises/           # 练习题
-│   │   ├── solutions/           # 参考解答
-│   │   └── tests/               # 单元测试
-│   │
-│   ├── phase2_langchain/        # 阶段 2：LangChain 学习
-│   │   ├── 01_llms/             # LLM 调用
-│   │   ├── 02_chains/           # Chain 组合
-│   │   ├── 03_tools/            # Tool 定义
-│   │   ├── 04_memory/           # 记忆系统
-│   │   └── 05_agents/           # Agent 基础
-│   │
-│   ├── phase3_rag/              # 阶段 3：RAG 实现
-│   │   ├── retriever.py
-│   │   ├── embeddings.py
-│   │   └── pipeline.py
-│   │
-│   └── phase4_multi_agent/      # 阶段 4：多 Agent 项目
-│       ├── agents/
-│       ├── coordinator.py
-│       └── main.py
-│
-├── 🚀 实际项目代码
-│   ├── backend/                 # Python 后端
-│   │   ├── main.py
-│   │   ├── requirements.txt
-│   │   └── venv/
-│   │
-│   └── frontend/                # 前端代码
-│       ├── src/
-│       ├── package.json
-│       └── node_modules/
-```
-
-**说明：**
-- **学习铺垫（phase1-4）** - 按照 CLAUDE.md 的教学路径，逐步学习 Python、LangChain、RAG、Multi-Agent
-- **实际项目（backend/frontend）** - 最终的研究助手产品代码
-
-## 学习时间估计
-
-| 阶段 | 内容 | 时间 | 产出 |
-|------|------|------|------|
-| 1 | Python 基础 | 1-2 周 | 3 个练习 + 理解 |
-| 2 | LangChain | 2-3 周 | 5 个小项目 |
-| 3 | RAG | 1-2 周 | 完整 RAG Pipeline |
-| 4 | Multi-Agent | 2-3 周 | 完整研究助手 |
-| **总计** | | **6-10 周** | **可用产品** |
-
-## 教学模式
-
-- **你的职责：** 写代码、思考设计、提问
-- **我的职责：** 解释原理、指出关键、引导思考
-
-详见 CLAUDE.md 中的"教学约定"部分。
-
-## 快速参考
-
-### 常见命令
-```bash
-# 运行特定阶段的练习
-python phase1_python_basics/exercises/01_syntax.py
-
-# 运行测试
-pytest phase1_python_basics/tests/
-
-# 检查代码质量
-pylint phase1_python_basics/
-
-# 格式化代码
-black phase1_python_basics/
-```
-
-### 调试技巧
-- 使用 `python -m pdb` 进行交互式调试
-- 使用 `logging` 模块记录执行流程
-- 使用 `asyncio.run()` 测试异步函数
-
-## 资源链接
-
-- [LangChain 官方文档](https://python.langchain.com/)
-- [Python 异步编程](https://docs.python.org/3/library/asyncio.html)
-- [Real Python](https://realpython.com/)
-- [LangGraph 文档](https://langchain-ai.github.io/langgraph/)
-
-## 下一步
-
-👉 **开始学习：** 打开 [CLAUDE.md](./CLAUDE.md)，从"第一个任务"开始！
+👉 **开发指南：** 参见 [CLAUDE.md](./CLAUDE.md)
+👉 **当前计划：** 参见 [task_plan.md](./task_plan.md)

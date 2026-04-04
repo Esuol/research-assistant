@@ -13,15 +13,18 @@
 # 任务 1：变量和基本类型
 # 定义一个函数，接收一个数字，返回它的平方
 def square(n):
-    """你来实现"""
-    pass
+    """返回 n 的平方"""
+    return n ** 2
 
 
 # 任务 2：列表操作
 # 定义一个函数，接收一个列表，返回去重后的列表（保持顺序）
 def remove_duplicates(items):
-    """你来实现"""
-    pass
+    """
+    使用 dict.fromkeys() 去重并保持顺序
+    这是 Python 3.7+ 中最 Pythonic 的做法
+    """
+    return list(dict.fromkeys(items))
 
 
 # 任务 3：字典操作

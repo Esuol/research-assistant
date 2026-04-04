@@ -2,10 +2,12 @@
 
 ## 会话日志
 
-### 2026-04-04 初始规划
-- **操作**: 调用 `planning-with-files` 技能初始化规划文件。
-- **结果**: 创建了 `task_plan.md`, `findings.md`, `progress.md`。
-- **状态**: 阶段 1 (基础语法) 准备就绪。
+### 2026-04-04 阶段 1 练习开始
+- **操作**: 实现了 `01_syntax.py` 中的 `square` 和 `remove_duplicates` 函数。
+- **结果**: 
+  - `square` 使用 `** 2` 实现。
+  - `remove_duplicates` 使用 `dict.fromkeys()` 实现（Pythonic，保持顺序）。
+- **状态**: 阶段 1 进度更新。
 
 ## 关键里程碑
 - [x] 初始化项目规划系统
