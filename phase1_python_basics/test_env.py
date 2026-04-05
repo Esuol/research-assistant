@@ -1,39 +1,38 @@
+# 验证 Python 环境
 import sys
 import os
 
-from dotenv import load_dotenv
-load_dotenv()
+def run_checks():
+    print(f"Python 版本: {sys.version}")
+    print("-" * 30)
 
-print(f"Python 版本: {sys.version}")
+    # 验证依赖
+    dependencies = [
+        ("langchain", "LangChain"),
+        ("openai", "OpenAI SDK"),
+        ("anthropic", "Anthropic SDK"),
+        ("dotenv", "python-dotenv")
+    ]
 
+    for module_name, display_name in dependencies:
+        try:
+            __import__(module_name)
+            print(f"✓ {display_name} 已安装")
+        except ImportError:
+            print(f"✗ {display_name} 未安装")
 
-# 检查 langchain 和 openai 是否安装
-try:
-    import langchain  # noqa: F401
+    print("-" * 30)
 
-    print("langchain: 已安装")
-except ImportError:
-    print("langchain: 未安装")
+    # 验证环境变量
+    env_vars = ["OPENAI_API_KEY", "OPENAI_BASE_URL", "ANTHROPIC_API_KEY"]
+    for var in env_vars:
+        value = os.getenv(var)
+        if value:
+            # 隐藏部分 key 以示安全
+            masked_value = value[:6] + "..." + value[-4:] if len(value) > 10 else "***"
+            print(f"✓ {var} 已配置: {masked_value}")
+        else:
+            print(f"✗ {var} 未配置")
 
-try:
-    import openai  # noqa: F401
-
-    print("openai: 已安装")
-except ImportError:
-    print("openai: 未安装")
-
-
-# 检查 OPENAI_API_KEY 是否设置
-api_key = os.getenv("OPENAI_API_KEY")
-if api_key:
-    print("OPENAI_API_KEY: 已设置（不会打印具体值，避免泄露）")
-else:
-    print("OPENAI_API_KEY: 未设置（请在 shell 或 .env 中配置）")
-
-# 检查 OPENAI_BASE_URL 是否设置（代理用户需要）
-base_url = os.getenv("OPENAI_BASE_URL")
-if base_url:
-    print(f"OPENAI_BASE_URL: 已设置为 {base_url}")
-else:
-    print("OPENAI_BASE_URL: 未设置（如需代理，请配置）")
-
+if __name__ == "__main__":
+    run_checks()

@@ -2,12 +2,12 @@
 
 ## 会话日志
 
-### 2026-04-04 阶段 1 练习开始
-- **操作**: 实现了 `01_syntax.py` 中的 `square` 和 `remove_duplicates` 函数。
+### 2026-04-05 阶段 1 语法部分完成
+- **操作**: 运行了 `01_syntax.py` 的全量测试，验证了 square, remove_duplicates, word_frequency, safe_int_convert。
 - **结果**: 
-  - `square` 使用 `** 2` 实现。
-  - `remove_duplicates` 使用 `dict.fromkeys()` 实现（Pythonic，保持顺序）。
-- **状态**: 阶段 1 进度更新。
+  - 所有测试用例 100% 通过。
+  - 环境中仍存在依赖缺失问题（LangChain/OpenAI），记录为风险。
+- **状态**: 基础语法练习闭环，准备进入面向对象（OOP）模块。
 
 ## 关键里程碑
 - [x] 初始化项目规划系统

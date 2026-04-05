@@ -5,21 +5,22 @@
 
 ## 阶段规划
 
-### 阶段 1: 基础语法 (进行中)
-- [ ] 完成 `exercises/01_syntax.py` 中的所有任务
+### 阶段 1: 基础语法 (已完成)
+- [x] 完成 `exercises/01_syntax.py` 中的所有任务
   - [x] `square`: 变量与基本类型
   - [x] `remove_duplicates`: 列表操作
-  - [ ] `sort_by_key`: 字典操作
-  - [ ] `word_frequency`: 字符串处理
-  - [ ] `safe_int_convert`: 异常处理
-- [ ] 通过代码审查和测试验证
+  - [x] `sort_by_key`: 字典操作
+  - [x] `word_frequency`: 字符串处理
+  - [x] `safe_int_convert`: 异常处理
+- [x] 通过环境验证与代码运行测试
+- [x] 专家点评与 Pythonic 风格优化
 
-### 阶段 2: 面向对象编程 (待开始)
+### 阶段 2: 面向对象编程 (进行中)
 - [ ] 完成 `exercises/02_oop.py` 中的所有任务
-  - [ ] `Person` 类定义
-  - [ ] `Student` 继承实现
-  - [ ] `StudentComposed` 组合实现
-  - [ ] 工厂模式实现
+  - [ ] `Person` 类定义 (属性与方法)
+  - [ ] `Student` 继承实现 (Super 调用)
+  - [ ] `StudentComposed` 组合实现 (组合优于继承)
+  - [ ] 设计模式初步：工厂模式生成不同类型的 Agent 模拟对象
 
 ### 阶段 3: 异步编程 (待开始)
 - [ ] 创建并完成 `exercises/03_async.py`
@@ -50,3 +51,4 @@
 
 ## 决策日志
 - **2026-04-04**: 启动项目规划，使用 `planning-with-files` 系统跟踪进度。优先完成基础语法练习。
+- **2026-04-05**: 确认阶段 1 代码已编写完成。启动环境依赖补齐，准备进行端到端闭环验证。

@@ -31,11 +31,10 @@ def remove_duplicates(items):
 # 定义一个函数，接收一个字典列表，返回按指定键排序的结果
 def sort_by_key(items, key):
     """
-    items: [{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}]
-    key: "age"
-    返回: 按 age 排序的列表
+    使用 sorted 函数和 lambda 表达式或 itemgetter。
+    在处理搜索结果或 RAG 检索到的文档时（按相关性评分排序），这个操作非常常用。
     """
-    pass
+    return sorted(items, key=lambda x: x.get(key))
 
 
 # 任务 4：字符串处理
@@ -44,8 +43,14 @@ def word_frequency(sentence):
     """
     sentence: "hello world hello"
     返回: {"hello": 2, "world": 1}
+
+    这是理解 Agent 如何解析文本、提取关键词的基础练习。
     """
-    pass
+    words = sentence.lower().split()
+    counts = {}
+    for w in words:
+        counts[w] = counts.get(w, 0) + 1
+    return counts
 
 
 # 任务 5：异常处理
@@ -54,14 +59,22 @@ def safe_int_convert(value):
     """
     如果转换成功，返回整数
     如果失败，返回 None 并打印错误信息
+
+    Agent 鲁棒性的护城河：防止网页乱码或模型异常返回导致的程序崩溃。
     """
-    pass
+    try:
+        return int(value)
+    except (ValueError, TypeError) as e:
+        print(f"转换失败: {e}")
+        return None
 
 
 if __name__ == "__main__":
     # 测试你的实现
     print("测试 square(5):", square(5))
     print("测试 remove_duplicates([1,2,2,3]):", remove_duplicates([1, 2, 2, 3]))
+    docs = [{"id": 1, "score": 0.3}, {"id": 2, "score": 0.9}, {"id": 3, "score": 0.5}]
+    print("测试 sort_by_key(docs, 'score'):", sort_by_key(docs, "score"))
     print("测试 word_frequency('hello world hello'):", word_frequency("hello world hello"))
     print("测试 safe_int_convert('123'):", safe_int_convert("123"))
     print("测试 safe_int_convert('abc'):", safe_int_convert("abc"))
